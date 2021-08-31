@@ -31,12 +31,15 @@ document.addEventListener("DOMContentLoaded", () => {
   //***************************************************************************** */
   //* Challenge 2
 
-  let breeds = fetch(breedUrl)
+  let breeds;
+  fetch(breedUrl)
     .then((response) => {
       return response.json();
     })
     .then((json) => {
-      itterateOverBreed(json["message"]);
+      breeds = json["message"];
+      itterateOverBreed(breeds);
+      // console.log(breeds);
     });
   function itterateOverBreed(msg) {
     for (breed in msg) {
@@ -50,24 +53,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   //   console.log( `${breedDropdown.options[breedDropdown.selectedIndex].value == false}`)
-  breedDropdown.addEventListener("change", () => {
-    let value = breedDropdown.options[breedDropdown.selectedIndex].value;
-    if (value) {
-      dogBreeds.innerHTML = "";
+  breedDropdown.addEventListener("change", (event) => {
+    // let value = breedDropdown.options[breedDropdown.selectedIndex].value;
+    // debugger
+    let selected = event.target.options[event.target.selectedIndex].value;
+    // console.log(selected);
+    // console.log(breeds)
+    dogBreeds.innerHTML = ""
+
+    for (breed in breeds) {
+      //   debugger
+      if (breed[0] === selected) {
+        let li = document.createElement("li");
+        li.innerHTML = breed;
+        li.addEventListener("click", () => {
+          li.style.color = "red";
+        });
+        dogBreeds.appendChild(li);
+      }
     }
   });
 });
-
-//***************************************************************************** */
-
-//***************************************************************************** */
-
-//***************************************************************************** */
-
-// fetch('http://api.open-notify.org/astros.json')
-// .then(function(response) {
-//   return response.json();
-// }).then(function(json) {
-//   console.log(json);
-//   console.log(`Holy cow! There are ${json["number"]} humans in space.`);
-// });
